@@ -19,6 +19,16 @@ aws sqs send-message \
 
 https://github.com/aws/aws-elastic-beanstalk-cli-setup
 
+```sh
+eb init
+```
+
+If everything went fine you should be ready to deploy:
+
+```sh
+eb deploy
+```
+
 ### Things that
 
 - The consumer may stop running
