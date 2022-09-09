@@ -34,3 +34,9 @@ eb deploy
 - The consumer may stop running
 - How to deal with dead queue
 - Beanstalk can use a custom AMI
+
+
+
+
+
+https://docs.amazonaws.cn/en_us/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html
