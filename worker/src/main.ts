@@ -1,7 +1,8 @@
+import { start } from './processor'
+
 (async () => {
   try {
-    const text = "aaa";
-    console.log(text);
+    await start();
   } catch (e) {
     console.error(e);
   }
