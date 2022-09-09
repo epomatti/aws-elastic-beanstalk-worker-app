@@ -23,11 +23,15 @@ const start = async () => {
   try {
     while (1) {
       const data = await sqsClient.send(new ReceiveMessageCommand(params));
-
-      // Simulates a long running task
-      await delay(LONG_RUNNING_TASK_DURATION);
+      const msgQty = data.Messages?.length;
 
       console.log(`Messages received: ${data.Messages?.length}. Http status code: ${data.$metadata.httpStatusCode}`);
+
+      if (msgQty! > 0) {
+        // Simulates a long-running process
+        console.log("Processing 1 message")
+        await delay(LONG_RUNNING_TASK_DURATION);
+      }
     }
   } catch (err) {
     console.error("Error", err);
