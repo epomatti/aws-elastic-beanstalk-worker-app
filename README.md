@@ -1,5 +1,6 @@
 # aws-image-processor
 
+
 ```sh
 touch .auto.tfvars
 ```
@@ -15,6 +16,8 @@ aws sqs send-message \
   --queue-url $queue \
   --message-body "file://tests/message-body.json"
 ```
+
+https://github.com/aws/aws-elastic-beanstalk-cli-setup
 
 ### Things that
 

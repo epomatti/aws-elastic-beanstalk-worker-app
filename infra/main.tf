@@ -119,8 +119,7 @@ resource "aws_elastic_beanstalk_environment" "main" {
   name                = "image-processor-environment"
   application         = aws_elastic_beanstalk_application.main.name
   solution_stack_name = "64bit Amazon Linux 2 v5.5.6 running Node.js 16"
-
-  tier = "Worker"
+  tier                = "Worker"
 
   // Settings
 
