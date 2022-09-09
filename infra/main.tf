@@ -2,7 +2,25 @@ provider "aws" {
   region = var.region
 }
 
+### Variables
+
 variable "region" {
+  type = string
+}
+
+variable "autoscaling_cooldown" {
+  type = number
+}
+
+variable "autoscaling_min_size" {
+  type = number
+}
+
+variable "autoscaling_max_size" {
+  type = number
+}
+
+variable "ec2_instance_types" {
   type = string
 }
 
@@ -75,9 +93,14 @@ resource "aws_iam_role" "main" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "dynamodb_full_access" {
+resource "aws_iam_role_policy_attachment" "AmazonS3FullAccess" {
   role       = aws_iam_role.main.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "AmazonSQSFullAccess" {
+  role       = aws_iam_role.main.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
 }
 
 resource "aws_iam_instance_profile" "main" {
@@ -105,28 +128,50 @@ resource "aws_elastic_beanstalk_environment" "main" {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
     value     = aws_iam_instance_profile.main.name
-    resource  = ""
   }
 
   setting {
     namespace = "aws:ec2:vpc"
     name      = "VPCId"
     value     = aws_vpc.main.id
-    resource  = ""
   }
 
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
     value     = aws_subnet.main.id
-    resource  = ""
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "EnvironmentType"
-    value     = "SingleInstance"
-    resource  = ""
+    value     = "LoadBalanced"
+  }
+
+  // Auto Scaling
+  setting {
+    namespace = "aws:autoscaling:asg"
+    name      = "Cooldown"
+    value     = var.autoscaling_cooldown
+  }
+
+  setting {
+    namespace = "aws:autoscaling:asg"
+    name      = "MinSize"
+    value     = var.autoscaling_min_size
+  }
+
+  setting {
+    namespace = "aws:autoscaling:asg"
+    name      = "MaxSize"
+    value     = var.autoscaling_max_size
+  }
+
+  // EC2
+  setting {
+    namespace = "aws:ec2:instances"
+    name      = "InstanceTypes"
+    value     = var.ec2_instance_types
   }
 
 }

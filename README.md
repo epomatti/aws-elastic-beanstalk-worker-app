@@ -15,3 +15,9 @@ aws sqs send-message \
   --queue-url $queue \
   --message-body "file://tests/message-body.json"
 ```
+
+### Things that
+
+- The consumer may stop running
+- How to deal with dead queue
+- Beanstalk can use a custom AMI
