@@ -136,6 +136,11 @@ resource "aws_iam_instance_profile" "main" {
 
 ### Elastic Beanstalk ###
 
+resource "aws_key_pair" "beanstalk_worker_key" {
+  key_name   = "beanstalk-worker-key"
+  public_key = file("${path.module}/id_rsa.pub")
+}
+
 resource "aws_elastic_beanstalk_application" "main" {
   name        = "image-processor-app"
   description = "Processes images from a queue"
@@ -153,6 +158,12 @@ resource "aws_elastic_beanstalk_environment" "main" {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
     value     = aws_iam_instance_profile.main.name
+  }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "EC2KeyName"
+    value     = aws_key_pair.beanstalk_worker_key.name
   }
 
   setting {
