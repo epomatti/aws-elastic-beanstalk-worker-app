@@ -123,6 +123,11 @@ resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkMulticontainerDock
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
 }
 
+resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
+  role       = aws_iam_role.main.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 resource "aws_iam_instance_profile" "main" {
   name = "beanstalk-test-profile"
   role = aws_iam_role.main.id
