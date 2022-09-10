@@ -98,12 +98,11 @@ resource "aws_iam_role" "main" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRole"
         Effect = "Allow"
-        Sid    = ""
         Principal = {
-          Service = "elasticbeanstalk.amazonaws.com"
+          Service = "ec2.amazonaws.com"
         }
+        Action = "sts:AssumeRole"
       },
     ]
   })
@@ -129,6 +128,11 @@ resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWorkerTier" {
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier"
 }
 
+resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkMulticontainerDocker" {
+  role       = aws_iam_role.main.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
+}
+
 resource "aws_iam_instance_profile" "main" {
   name = "beanstalk-test-profile"
   role = aws_iam_role.main.id
@@ -137,7 +141,8 @@ resource "aws_iam_instance_profile" "main" {
     aws_iam_role_policy_attachment.AmazonS3FullAccess,
     aws_iam_role_policy_attachment.AmazonSQSFullAccess,
     aws_iam_role_policy_attachment.AWSElasticBeanstalkWebTier,
-    aws_iam_role_policy_attachment.AWSElasticBeanstalkWorkerTier
+    aws_iam_role_policy_attachment.AWSElasticBeanstalkWorkerTier,
+    aws_iam_role_policy_attachment.AWSElasticBeanstalkMulticontainerDocker
   ]
 }
 
@@ -162,22 +167,36 @@ resource "aws_elastic_beanstalk_environment" "main" {
     value     = aws_iam_instance_profile.main.name
   }
 
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "VPCId"
-    value     = aws_vpc.main.id
-  }
+  # setting {
+  #   namespace = "aws:ec2:vpc"
+  #   name      = "VPCId"
+  #   value     = aws_vpc.main.id
+  # }
 
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "Subnets"
-    value     = aws_subnet.main.id
-  }
+  # setting {
+  #   namespace = "aws:ec2:vpc"
+  #   name      = "Subnets"
+  #   value     = aws_subnet.main.id
+  # }
 
+  // Environment
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "EnvironmentType"
     value     = "LoadBalanced"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "ServiceRole"
+    // TODO: Create role
+    value = "aws-elasticbeanstalk-service-role"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "LoadBalancerType"
+    value     = "application"
   }
 
   // Auto Scaling
