@@ -24,6 +24,22 @@ variable "ec2_instance_types" {
   type = string
 }
 
+variable "sqs_daemon_max_concurrent_connections" {
+  type = number
+}
+
+variable "sqs_daemon_inactivity_timeout" {
+  type = number
+}
+
+variable "sqs_daemon_visibility_timeout" {
+  type = number
+}
+
+variable "sqs_daemon_max_retries" {
+  type = number
+}
+
 ### VPC
 
 resource "aws_vpc" "main" {
@@ -171,6 +187,31 @@ resource "aws_elastic_beanstalk_environment" "main" {
     namespace = "aws:ec2:instances"
     name      = "InstanceTypes"
     value     = var.ec2_instance_types
+  }
+
+  // Worker
+  setting {
+    namespace = "aws:elasticbeanstalk:sqsd"
+    name      = "HttpConnections"
+    value     = var.sqs_daemon_max_concurrent_connections
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:sqsd"
+    name      = "InactivityTimeout"
+    value     = var.sqs_daemon_inactivity_timeout
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:sqsd"
+    name      = "VisibilityTimeout"
+    value     = var.sqs_daemon_visibility_timeout
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:sqsd"
+    name      = "MaxRetries"
+    value     = var.sqs_daemon_max_retries
   }
 
 }
