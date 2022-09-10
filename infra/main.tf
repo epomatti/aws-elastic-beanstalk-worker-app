@@ -119,9 +119,26 @@ resource "aws_iam_role_policy_attachment" "AmazonSQSFullAccess" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
 }
 
+resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWebTier" {
+  role       = aws_iam_role.main.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
+}
+
+resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWorkerTier" {
+  role       = aws_iam_role.main.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier"
+}
+
 resource "aws_iam_instance_profile" "main" {
   name = "beanstalk-test-profile"
   role = aws_iam_role.main.id
+
+  depends_on = [
+    aws_iam_role_policy_attachment.AmazonS3FullAccess,
+    aws_iam_role_policy_attachment.AmazonSQSFullAccess,
+    aws_iam_role_policy_attachment.AWSElasticBeanstalkWebTier,
+    aws_iam_role_policy_attachment.AWSElasticBeanstalkWorkerTier
+  ]
 }
 
 ### Elastic Beanstalk ###
@@ -232,6 +249,32 @@ resource "aws_elastic_beanstalk_environment" "main" {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "LONG_RUNNING_TASK_DURATION"
     value     = "60000"
+  }
+
+  // CloudWatch Logs
+  setting {
+    namespace = "aws:elasticbeanstalk:cloudwatch:logs"
+    name      = "StreamLogs"
+    value     = "true"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:cloudwatch:logs"
+    name      = "DeleteOnTerminate"
+    value     = "true"
+  }
+
+  // CloudWatch Logs
+  setting {
+    namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
+    name      = "HealthStreamingEnabled"
+    value     = "true"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
+    name      = "DeleteOnTerminate"
+    value     = "true"
   }
 
 }
