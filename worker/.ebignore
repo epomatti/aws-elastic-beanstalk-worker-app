@@ -5,4 +5,4 @@
 !package-lock.json
 !Procfile
 !.npmrc
-!.ebextensions/
+!.ebextensions/*
