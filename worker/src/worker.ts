@@ -15,10 +15,10 @@ const delay = async (ms: number) => {
 
 const start = async () => {
   app.post('/', async (req, res) => {
-    console.log("received message");
-    console.log(req.body);
+    const body = req.body;
+    console.log(`Received message: ${body}`);
     await delay(LONG_RUNNING_TASK_DURATION);
-    console.log("message processed");
+    console.log(`Messaged processed: ${body}`);
     res.send('Ok')
   })
 
