@@ -40,9 +40,11 @@ npm install --only=prod
 
 ### Things that
 
+- Elastic Beanstalk is composed of multiple services and native features, so reading the documentation carefully an testing is essential to support a production application.
 - The consumer may stop running
 - How to deal with dead queue
 - Beanstalk can use a custom AMI
+- EB installs production dependencies ([ref](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-platform-dependencies.html))
 
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-general.html
 https://docs.amazonaws.cn/en_us/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html
