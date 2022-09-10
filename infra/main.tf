@@ -265,12 +265,6 @@ resource "aws_elastic_beanstalk_environment" "main" {
   // Environment Properties
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "WORKER_PORT"
-    value     = "80"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
     name      = "LONG_RUNNING_TASK_DURATION"
     value     = "60000"
   }
