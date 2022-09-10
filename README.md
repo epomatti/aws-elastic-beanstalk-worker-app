@@ -46,6 +46,9 @@ aws sqs send-message-batch \
   --entries file://test/send-message-batch-10.json
 ```
 
+### Auto Scaling
+
+https://jun711.github.io/aws/aws-elastic-beanstalk-worker-auto-scaling-by-queue-size/
 
 ### Things that
 
