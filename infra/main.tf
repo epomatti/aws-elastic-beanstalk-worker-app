@@ -214,4 +214,24 @@ resource "aws_elastic_beanstalk_environment" "main" {
     value     = var.sqs_daemon_max_retries
   }
 
+  // Application
+  setting {
+    namespace = "aws:elasticbeanstalk:application"
+    name      = "Application Healthcheck URL"
+    value     = "/health"
+  }
+
+  // Environment Properties
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "WORKER_PORT"
+    value     = "80"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "LONG_RUNNING_TASK_DURATION"
+    value     = "60000"
+  }
+
 }

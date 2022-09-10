@@ -1,4 +1,3 @@
-var http = require('http');
 require('dotenv').config();
 
 const WORKER_PORT: number = Number(process.env.WORKER_PORT);
@@ -9,16 +8,23 @@ const delay = (ms: number) => {
 }
 
 const start = async () => {
-  http.createServer(function (req: any, res: any) {
 
-    // Simulates a long-running process
-    console.log("Processing 1 message")
+  const express = require('express')
+  const app = express()
+  const port = WORKER_PORT
+
+  app.get('/', (req: any, res: any) => {
+    console.log("received message");
     delay(LONG_RUNNING_TASK_DURATION);
+  })
 
-    res.write('');
-    res.end();
-    
-  }).listen(WORKER_PORT);
+  app.get('/health', (req: any, res: any) => {
+    res.send('Ok')
+  })
+
+  app.listen(port, () => {
+    console.log(`Worker endpoint started on port ${port}`)
+  })
 }
 
 export { start };
