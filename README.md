@@ -29,6 +29,8 @@ If everything went fine you should be ready to deploy:
 eb deploy
 ```
 
+> ⚠️ Use the `deploy.sh` script. For some reason `node_modules` is not being ignored by the `.ebignore` and is being sent corrupted, and when `node_modules` is present it doesn't trigger the automatic npm install managed by Beanstalk.
+
 
 As always, ideally in your pipeline deploy only the production code:
 
