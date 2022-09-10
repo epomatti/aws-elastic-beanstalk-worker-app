@@ -14,7 +14,7 @@ touch .env
 ```sh
 aws sqs send-message \
   --queue-url $queue \
-  --message-body "file://tests/message-body.json"
+  --message-body "Hello"
 ```
 
 https://github.com/aws/aws-elastic-beanstalk-cli-setup
