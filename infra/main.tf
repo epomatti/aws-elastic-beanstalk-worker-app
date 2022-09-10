@@ -135,7 +135,8 @@ resource "aws_iam_instance_profile" "main" {
   depends_on = [
     aws_iam_role_policy_attachment.AWSElasticBeanstalkWebTier,
     aws_iam_role_policy_attachment.AWSElasticBeanstalkWorkerTier,
-    aws_iam_role_policy_attachment.AWSElasticBeanstalkMulticontainerDocker
+    aws_iam_role_policy_attachment.AWSElasticBeanstalkMulticontainerDocker,
+    aws_iam_role_policy_attachment.AmazonSSMManagedInstanceCore
   ]
 }
 
