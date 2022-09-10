@@ -6,6 +6,9 @@
     "build": "tsc",
     "dev": "npx ts-node --esm src/main.ts"
   },
+  "engines": {
+    "node": ">=16.17.0"
+  },
   "dependencies": {
     "dotenv": "^16.0.2",
     "express": "^4.18.1"
