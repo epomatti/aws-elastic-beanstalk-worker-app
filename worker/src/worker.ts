@@ -3,6 +3,7 @@ dotenv.config();
 import express from 'express';
 
 const LONG_RUNNING_TASK_DURATION: number = Number(process.env.LONG_RUNNING_TASK_DURATION);
+console.log(`Long running task will delay for: ${LONG_RUNNING_TASK_DURATION} ms`);
 
 const delay = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
