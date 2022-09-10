@@ -108,16 +108,6 @@ resource "aws_iam_role" "main" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonS3FullAccess" {
-  role       = aws_iam_role.main.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "AmazonSQSFullAccess" {
-  role       = aws_iam_role.main.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
-}
-
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWebTier" {
   role       = aws_iam_role.main.name
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
@@ -138,8 +128,6 @@ resource "aws_iam_instance_profile" "main" {
   role = aws_iam_role.main.id
 
   depends_on = [
-    aws_iam_role_policy_attachment.AmazonS3FullAccess,
-    aws_iam_role_policy_attachment.AmazonSQSFullAccess,
     aws_iam_role_policy_attachment.AWSElasticBeanstalkWebTier,
     aws_iam_role_policy_attachment.AWSElasticBeanstalkWorkerTier,
     aws_iam_role_policy_attachment.AWSElasticBeanstalkMulticontainerDocker
@@ -167,17 +155,17 @@ resource "aws_elastic_beanstalk_environment" "main" {
     value     = aws_iam_instance_profile.main.name
   }
 
-  # setting {
-  #   namespace = "aws:ec2:vpc"
-  #   name      = "VPCId"
-  #   value     = aws_vpc.main.id
-  # }
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "VPCId"
+    value     = aws_vpc.main.id
+  }
 
-  # setting {
-  #   namespace = "aws:ec2:vpc"
-  #   name      = "Subnets"
-  #   value     = aws_subnet.main.id
-  # }
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "Subnets"
+    value     = aws_subnet.main.id
+  }
 
   // Environment
   setting {
@@ -295,5 +283,4 @@ resource "aws_elastic_beanstalk_environment" "main" {
     name      = "DeleteOnTerminate"
     value     = "true"
   }
-
 }

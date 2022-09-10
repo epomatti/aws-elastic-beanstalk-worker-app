@@ -29,14 +29,18 @@ If everything went fine you should be ready to deploy:
 eb deploy
 ```
 
+
+As always, ideally in your pipeline deploy only the production code:
+
+```
+npm install --only=prod
+```
+
 ### Things that
 
 - The consumer may stop running
 - How to deal with dead queue
 - Beanstalk can use a custom AMI
-
-
-
 
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-general.html
 https://docs.amazonaws.cn/en_us/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html
