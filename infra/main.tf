@@ -8,6 +8,18 @@ variable "region" {
   type = string
 }
 
+variable "availability_zone_a" {
+  type = string
+}
+
+variable "availability_zone_b" {
+  type = string
+}
+
+variable "availability_zone_c" {
+  type = string
+}
+
 variable "autoscaling_cooldown" {
   type = number
 }
@@ -83,10 +95,25 @@ resource "aws_security_group_rule" "egress_all" {
   security_group_id = aws_default_security_group.main.id
 }
 
-resource "aws_subnet" "main" {
+resource "aws_subnet" "a" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = true
+  availability_zone       = var.availability_zone_a
+}
+
+resource "aws_subnet" "b" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.10.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = var.availability_zone_b
+}
+
+resource "aws_subnet" "c" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.20.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = var.availability_zone_c
 }
 
 ### Permissions ###
@@ -181,7 +208,7 @@ resource "aws_elastic_beanstalk_environment" "main" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
-    value     = aws_subnet.main.id
+    value     = "${aws_subnet.a.id},${aws_subnet.b.id},${aws_subnet.c.id}"
   }
 
   // Environment
