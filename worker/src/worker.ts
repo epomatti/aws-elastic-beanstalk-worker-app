@@ -16,6 +16,7 @@ const start = async () => {
   app.post('/', (req: any, res: any) => {
     console.log("received message");
     delay(LONG_RUNNING_TASK_DURATION);
+    res.send('Ok')
   })
 
   app.get('/health', (req: any, res: any) => {
