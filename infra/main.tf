@@ -163,7 +163,7 @@ resource "aws_elastic_beanstalk_environment" "main" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "EC2KeyName"
-    value     = aws_key_pair.beanstalk_worker_key.name
+    value     = aws_key_pair.beanstalk_worker_key.key_name
   }
 
   setting {
