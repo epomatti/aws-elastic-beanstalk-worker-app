@@ -13,7 +13,7 @@ const start = async () => {
   const app = express()
   const port = WORKER_PORT
 
-  app.get('/', (req: any, res: any) => {
+  app.post('/', (req: any, res: any) => {
     console.log("received message");
     delay(LONG_RUNNING_TASK_DURATION);
   })
