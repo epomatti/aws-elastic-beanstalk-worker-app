@@ -14,14 +14,15 @@ const start = async () => {
   const app = express()
   const port: number = Number(process.env.PORT);
 
-  app.post('/', async (req: any, res: any) => {
+  app.post('/', async (req, res) => {
     console.log("received message");
+    console.log(req.body);
     await delay(LONG_RUNNING_TASK_DURATION);
     console.log("message processed");
     res.send('Ok')
   })
 
-  app.get('/health', (req: any, res: any) => {
+  app.get('/health', (req, res) => {
     res.send('Ok')
   })
 

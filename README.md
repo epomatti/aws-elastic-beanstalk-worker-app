@@ -38,6 +38,15 @@ As always, ideally in your pipeline deploy only the production code:
 npm install --only=prod
 ```
 
+Send a batch of messages:
+
+```sh
+aws sqs send-message-batch \
+  --queue-url $queue \
+  --entries file://test/send-message-batch-10.json
+```
+
+
 ### Things that
 
 - Elastic Beanstalk is composed of multiple services and native features, so reading the documentation carefully an testing is essential to support a production application.
