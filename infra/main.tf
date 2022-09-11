@@ -153,7 +153,7 @@ resource "aws_iam_instance_profile" "main" {
 
 resource "aws_key_pair" "beanstalk_worker_key" {
   key_name   = "beanstalk-worker-key"
-  public_key = file("${path.module}/id_rsa.pub")
+  public_key = file("${path.module}/keys/id_rsa.pub")
 }
 
 resource "aws_elastic_beanstalk_application" "main" {
