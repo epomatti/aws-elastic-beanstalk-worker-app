@@ -5,8 +5,9 @@ export interface Config {
   port: number;
   // The delay to simulate a long-running task in milliseconds
   longRunningTaskDuration: number;
-  // DynamoDB values
+  // DynamoDB region
   dynamodbRegion: string;
+  // DynamoDB table name
   dynamodbTableName: string;
 }
 
