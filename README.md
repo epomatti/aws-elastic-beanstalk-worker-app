@@ -29,7 +29,7 @@ If everything went fine you should be ready to deploy:
 eb deploy
 ```
 
-> ⚠️ Use the `deploy.sh` script. For some reason `node_modules` is not being ignored by the `.ebignore` and is being sent corrupted, and when `node_modules` is present it doesn't trigger the automatic npm install managed by Beanstalk.
+> ⚠️ Use the `bash scripts/deploy.sh` script. For some reason `node_modules` is not being ignored by the `.ebignore` and is being sent corrupted, and when `node_modules` is present it doesn't trigger the automatic npm install managed by Beanstalk.
 
 
 As always, ideally in your pipeline deploy only the production code:
@@ -52,6 +52,12 @@ Send a batch of messages:
 aws sqs send-message-batch \
   --queue-url $queue \
   --entries file://test/send-message-batch-10.json
+```
+
+### Testing
+
+```sh
+bash scripts/recreate-dynamodb-table.sh
 ```
 
 ### Auto Scaling
