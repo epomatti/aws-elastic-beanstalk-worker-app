@@ -91,7 +91,7 @@ bash scripts/delete-dynamodb-table
 bash scripts/create-dynamodb-table
 ```
 
-### Application Development
+## Application Development
 
 While in the application directory `worker`, create the `.env`:
 
