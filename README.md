@@ -44,9 +44,12 @@ terraform -chdir="infra" init
 terraform -chdir="infra" apply -auto-approve
 ```
 
-Get the queue URL and set it as a variable:
+Get the worker queue URL and set it as a variable to send messages soon:
 
 ```sh
+aws sqs list-queues --queue-name-prefix awseb --region "<region>"
+
+# copy the worker queue (not the dead letter)
 export queue="https://sqs.<region>.amazonaws.com/<account>/<name>"
 ```
 
@@ -56,19 +59,17 @@ Enter the application directory:
 cd worker
 ```
 
-Init the application with the EB CLI:
+Get the dependencies and build it. Then init the EB application using the EB CLI and deploy:
 
 ```sh
+npm ci
+npm run build
+
 eb init
+eb deploy
 ```
 
-Deploy the application:
-
-```sh
-bash deploy.sh
-```
-
-> ⚠️ Had to make the `bash scripts/deploy.sh` script for now. For some reason `node_modules` is not being ignored by the `.ebignore` and is being sent corrupted, and when `node_modules` is present it doesn't trigger the automatic npm install managed by Beanstalk.
+The required parameters are already set by Terraform.
 
 Test it by sending messages to the queue:
 

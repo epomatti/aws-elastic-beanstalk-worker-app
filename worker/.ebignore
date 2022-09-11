@@ -1,9 +1,13 @@
+# Ignore everything
 *
 
+# Except
 !dist/
-!package.json
 !package-lock.json
 !Procfile
 !.npmrc
 !.ebextensions/*
 !.platform/**
+
+# Ignore node_modules
+node_modules
