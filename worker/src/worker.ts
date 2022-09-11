@@ -20,7 +20,7 @@ export const start = async () => {
     console.log(`Received message: ${id}`);
     await delay(LONG_RUNNING_TASK_DURATION);
     await putItem(id, "OK");
-    console.log(`Messaged processed1: ${id}`);
+    console.log(`Messaged processed: ${id}`);
     res.send('Ok')
   })
 
