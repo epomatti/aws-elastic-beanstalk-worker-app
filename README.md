@@ -116,7 +116,7 @@ npm i
 npm run dev
 ```
 
-Send POST requests to localhost:8080
+Send POST requests to localhost:8080 with the body being the message payload.
 
 ---
 
