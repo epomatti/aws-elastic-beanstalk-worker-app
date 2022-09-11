@@ -1,6 +1,6 @@
 # AWS Elastic Beanstalk Worker Environment
 
-Architecture for worker-type applications for long-running tasks using Beanstalk. This configuration scales based on queue size and is highly-available across multiple availability zones.
+Hands-on architecture for worker-type applications with long-running tasks using Beanstalk. This configuration scales based on queue size and is highly-available across multiple availability zones.
 
 <img src=".docs/beanstalk-worker.drawio.png" />
 

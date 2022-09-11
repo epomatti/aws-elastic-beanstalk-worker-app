@@ -1,55 +1,11 @@
+terraform {
+  backend "local" {
+    path = ".workspace/terraform.tfstate"
+  }
+}
+
 provider "aws" {
   region = var.region
-}
-
-### Variables
-
-variable "region" {
-  type = string
-}
-
-variable "availability_zone_a" {
-  type = string
-}
-
-variable "availability_zone_b" {
-  type = string
-}
-
-variable "availability_zone_c" {
-  type = string
-}
-
-variable "autoscaling_cooldown" {
-  type = number
-}
-
-variable "autoscaling_min_size" {
-  type = number
-}
-
-variable "autoscaling_max_size" {
-  type = number
-}
-
-variable "ec2_instance_types" {
-  type = string
-}
-
-variable "sqs_daemon_max_concurrent_connections" {
-  type = number
-}
-
-variable "sqs_daemon_inactivity_timeout" {
-  type = number
-}
-
-variable "sqs_daemon_visibility_timeout" {
-  type = number
-}
-
-variable "sqs_daemon_max_retries" {
-  type = number
 }
 
 ### VPC
@@ -212,7 +168,6 @@ resource "aws_elastic_beanstalk_environment" "main" {
   tier                = "Worker"
 
   // Settings
-
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
@@ -341,16 +296,10 @@ resource "aws_elastic_beanstalk_environment" "main" {
     value     = "true"
   }
 
-  // CloudWatch Logs
+  // Health Check
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
     name      = "HealthStreamingEnabled"
-    value     = "true"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:cloudwatch:logs:health"
-    name      = "DeleteOnTerminate"
     value     = "true"
   }
 }
