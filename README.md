@@ -38,6 +38,14 @@ As always, ideally in your pipeline deploy only the production code:
 npm install --only=prod
 ```
 
+Send a single message:
+
+```sh
+aws sqs send-message \
+  --queue-url $queue \
+  --message-body "{ \"id\": \"yyy\" }"
+```
+
 Send a batch of messages:
 
 ```sh
