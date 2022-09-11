@@ -1,13 +1,13 @@
 import { DynamoDBClient, PutItemCommand, PutItemCommandInput } from "@aws-sdk/client-dynamodb";
+import { getConfig } from "./config";
 
-const region = process.env.DYNAMODB_REGION;
-const tableName = process.env.DYNAMODB_TABLE_NAME;
+const config = getConfig();
 
 export const putItem = async (id: string, status: string) => {
-  const client = new DynamoDBClient({ region: region });
+  const client = new DynamoDBClient({ region: config.dynamodbRegion });
 
   const input: PutItemCommandInput = {
-    TableName: tableName,
+    TableName: config.dynamodbTableName,
     Item: {
       "MessageId": { "S": id },
       "Status": { "S": status }

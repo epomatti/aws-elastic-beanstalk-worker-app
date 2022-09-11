@@ -4,7 +4,8 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "tsc",
-    "dev": "tsnd --respawn src/main.ts"
+    "dev": "tsnd --respawn src/main.ts",
+    "deploy": "tsc && eb deploy"
   },
   "engines": {
     "node": ">=16.17.0"
