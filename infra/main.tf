@@ -201,12 +201,12 @@ resource "aws_key_pair" "beanstalk_worker_key" {
 }
 
 resource "aws_elastic_beanstalk_application" "main" {
-  name        = "image-processor-app"
-  description = "Processes images from a queue"
+  name        = "long-running-app"
+  description = "Processes long-running tasks with workers"
 }
 
 resource "aws_elastic_beanstalk_environment" "main" {
-  name                = "image-processor-environment"
+  name                = "long-running-environment"
   application         = aws_elastic_beanstalk_application.main.name
   solution_stack_name = "64bit Amazon Linux 2 v5.5.6 running Node.js 16"
   tier                = "Worker"
