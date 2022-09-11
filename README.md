@@ -1,19 +1,89 @@
-# aws-image-processor
+# AWS Elastic Beanstalk Worker Environment
 
+Architecture for worker-type applications for long-running tasks using Beanstalk. This configuration scales based on queue size and is highly-available across multiple availability zones.
+
+<img src=".docs/beanstalk-worker.drawio.png" />
+
+Get to know Beanstalk Worker by reading the [documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html).
+
+## Cloud Deployment
+
+Create TF config file:
 
 ```sh
-touch .auto.tfvars
+touch infra/.auto.tfvars
 ```
 
+Set the environment according to your preferences:
 
+```hcl
+region = "us-east-2"
+
+availability_zone_a = "us-east-2a"
+availability_zone_b = "us-east-2b"
+availability_zone_c = "us-east-2c"
+
+autoscaling_cooldown = 500
+autoscaling_min_size = 1
+autoscaling_max_size = 2
+
+ec2_instance_types = "t2.micro"
+
+sqs_daemon_max_concurrent_connections = 1
+sqs_daemon_inactivity_timeout         = 499
+sqs_daemon_visibility_timeout         = 500
+sqs_daemon_max_retries                = 3
+```
+
+Create the infrastructure:
+
+```sh
+terraform -chdir="infra" init
+terraform -chdir="infra" apply -auto-approve
+```
+
+Get the queue URL and set it as a variable:
+
+```sh
+export queue="https://sqs.<region>.amazonaws.com/<account>/<name>"
+```
+
+Enter the application directory:
+
+```sh
+cd worker
+```
+
+Deploy the application:
+
+```sh
+bash deploy.sh
+```
+
+Test it by sending messages to the queue:
+
+```sh
+# This will send 3 batches of 10 messages each = 30 messages in total
+bash scripts/send-sqs-batch.sh 3
+```
+
+If everything worked accordingly the worker nodes should start processing the messages.
+
+### Application Deployment
+
+Enter the app directory:
+
+```sh
+cd worker
+```
+
+Create the `.env`:
 
 ```sh
 touch .env
 ```
 
-```sh
-export queue="https://sqs.<region>.amazonaws.com/<account>/<name>"
-```
+
 
 ```sh
 aws sqs send-message \
@@ -58,7 +128,20 @@ aws sqs send-message-batch \
   --entries file://test/send-message-batch-10.json
 ```
 
+## Local Development
+
+```sh
+LONG_RUNNING_TASK_DURATION=0
+PORT=8080
+DYNAMODB_REGION="us-east-2"
+DYNAMODB_TABLE_NAME="BeanstalkTasks"
+```
+
 ### Testing
+
+```sh
+export queue="https://sqs.<region>.amazonaws.com/<account>/<name>"
+```
 
 ```sh
 bash scripts/recreate-dynamodb-table.sh
