@@ -62,7 +62,7 @@ cd worker
 Get the dependencies and build it. Then init the EB application using the EB CLI and deploy:
 
 ```sh
-npm ci
+npm i
 npm run build
 
 eb init
