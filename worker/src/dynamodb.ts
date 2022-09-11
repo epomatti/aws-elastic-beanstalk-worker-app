@@ -15,5 +15,6 @@ export const putItem = async (id: string, status: string) => {
   }
 
   const command = new PutItemCommand(input);
-  await client.send(command);
+  const output = await client.send(command);
+  console.log(output);
 }

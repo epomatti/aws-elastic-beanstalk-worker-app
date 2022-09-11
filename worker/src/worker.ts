@@ -14,7 +14,7 @@ const delay = async (ms: number) => {
   return await new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const start = async () => {
+export const start = async () => {
   app.post('/', async (req, res) => {
     const id = req.body.id;
     console.log(`Received message: ${id}`);
@@ -32,5 +32,3 @@ const start = async () => {
     console.log(`Worker endpoint started on port ${port}`)
   })
 }
-
-export { start };
