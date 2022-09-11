@@ -8,7 +8,9 @@ Get to know Beanstalk Worker by reading the [documentation](https://docs.aws.ama
 
 ## Cloud Deployment
 
-Create TF config file:
+Use these instructions to create the infrastructure and deploy directly to the cloud.
+
+First create the TF config file:
 
 ```sh
 touch infra/.auto.tfvars
