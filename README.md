@@ -56,11 +56,19 @@ Enter the application directory:
 cd worker
 ```
 
+Init the application with the EB CLI:
+
+```sh
+eb init
+```
+
 Deploy the application:
 
 ```sh
 bash deploy.sh
 ```
+
+> ⚠️ Had to make the `bash scripts/deploy.sh` script for now. For some reason `node_modules` is not being ignored by the `.ebignore` and is being sent corrupted, and when `node_modules` is present it doesn't trigger the automatic npm install managed by Beanstalk.
 
 Test it by sending messages to the queue:
 
@@ -71,55 +79,40 @@ bash scripts/send-sqs-batch.sh 3
 
 If everything worked accordingly the worker nodes should start processing the messages.
 
-### Application Deployment
+> 💡 CloudWatch alarms will trigger auto-scaling _in_ or _out_ when queue size meets the threshold
 
-Enter the app directory:
+You may want to recreate the DynamoDB table between tests:
 
 ```sh
-cd worker
+# Deletion process is asynchronous
+bash scripts/delete-dynamodb-table
+
+# Once deleted, create it again
+bash scripts/create-dynamodb-table
 ```
 
-Create the `.env`:
+### Application Development
+
+While in the application directory `worker`, create the `.env`:
 
 ```sh
 touch .env
 ```
 
-
-
-```sh
-aws sqs send-message \
-  --queue-url $queue \
-  --message-body "Hello"
-```
-
-https://github.com/aws/aws-elastic-beanstalk-cli-setup
+Add values according to your preferences:
 
 ```sh
-eb init
+LONG_RUNNING_TASK_DURATION=0
+PORT=8080
+DYNAMODB_REGION="us-east-2"
+DYNAMODB_TABLE_NAME="BeanstalkTasks"
 ```
 
-If everything went fine you should be ready to deploy:
+Install dependencies and start the application:
 
 ```sh
-eb deploy
-```
-
-> ⚠️ Use the `bash scripts/deploy.sh` script. For some reason `node_modules` is not being ignored by the `.ebignore` and is being sent corrupted, and when `node_modules` is present it doesn't trigger the automatic npm install managed by Beanstalk.
-
-
-As always, ideally in your pipeline deploy only the production code:
-
-```
-npm install --only=prod
-```
-
-Send a single message:
-
-```sh
-aws sqs send-message \
-  --queue-url $queue \
-  --message-body "{ \"id\": \"yyy\" }"
+npm i
+npm run dev
 ```
 
 Send a batch of messages:
@@ -130,37 +123,20 @@ aws sqs send-message-batch \
   --entries file://test/send-message-batch-10.json
 ```
 
-## Local Development
+---
+
+### Clean-up
+
+When done, delete the resources:
 
 ```sh
-LONG_RUNNING_TASK_DURATION=0
-PORT=8080
-DYNAMODB_REGION="us-east-2"
-DYNAMODB_TABLE_NAME="BeanstalkTasks"
+terraform destroy
 ```
 
-### Testing
-
-```sh
-export queue="https://sqs.<region>.amazonaws.com/<account>/<name>"
-```
-
-```sh
-bash scripts/recreate-dynamodb-table.sh
-```
-
-### Auto Scaling
+## References
 
 https://jun711.github.io/aws/aws-elastic-beanstalk-worker-auto-scaling-by-queue-size/
-
-### Things that
-
-- Elastic Beanstalk is composed of multiple services and native features, so reading the documentation carefully an testing is essential to support a production application.
-- The consumer may stop running
-- How to deal with dead queue
-- Beanstalk can use a custom AMI
-- EB installs production dependencies ([ref](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-platform-dependencies.html))
-
+https://github.com/aws/aws-elastic-beanstalk-cli-setup
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-general.html
 https://docs.amazonaws.cn/en_us/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_nodejs.container.html
