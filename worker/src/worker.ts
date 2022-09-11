@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
+import { putItem } from './dynamodb';
 
 const port: number = Number(process.env.PORT);
 const LONG_RUNNING_TASK_DURATION: number = Number(process.env.LONG_RUNNING_TASK_DURATION);
@@ -18,6 +19,7 @@ const start = async () => {
     const body = req.body;
     console.log(`Received message: ${body}`);
     await delay(LONG_RUNNING_TASK_DURATION);
+    await putItem(body.id, "OK");
     console.log(`Messaged processed: ${body}`);
     res.send('Ok')
   })

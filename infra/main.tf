@@ -116,6 +116,26 @@ resource "aws_subnet" "c" {
   availability_zone       = var.availability_zone_c
 }
 
+### DynamoDB ###
+
+resource "aws_dynamodb_table" "beanstalk_tasks" {
+  name           = "BeanstalkTasks"
+  billing_mode   = "PAY_PER_REQUEST"
+  stream_enabled = false
+  hash_key       = "MessageId"
+  range_key      = "Status"
+
+  attribute {
+    name = "MessageId"
+    type = "S"
+  }
+
+  attribute {
+    name = "Status"
+    type = "S"
+  }
+}
+
 ### Permissions ###
 
 resource "aws_iam_role" "main" {
@@ -155,6 +175,11 @@ resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+resource "aws_iam_role_policy_attachment" "AmazonDynamoDBFullAccess" {
+  role       = aws_iam_role.main.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+
 resource "aws_iam_instance_profile" "main" {
   name = "beanstalk-test-profile"
   role = aws_iam_role.main.id
@@ -163,7 +188,8 @@ resource "aws_iam_instance_profile" "main" {
     aws_iam_role_policy_attachment.AWSElasticBeanstalkWebTier,
     aws_iam_role_policy_attachment.AWSElasticBeanstalkWorkerTier,
     aws_iam_role_policy_attachment.AWSElasticBeanstalkMulticontainerDocker,
-    aws_iam_role_policy_attachment.AmazonSSMManagedInstanceCore
+    aws_iam_role_policy_attachment.AmazonSSMManagedInstanceCore,
+    aws_iam_role_policy_attachment.AmazonDynamoDBFullAccess
   ]
 }
 
