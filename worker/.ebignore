@@ -2,11 +2,12 @@
 *
 
 # Except
-!dist/
+!dist/**
+!package.json
 !package-lock.json
 !Procfile
 !.npmrc
-!.ebextensions/*
+!.ebextensions/**
 !.platform/**
 
 # Ignore node_modules
