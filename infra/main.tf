@@ -322,6 +322,18 @@ resource "aws_elastic_beanstalk_environment" "main" {
     value     = "60000"
   }
 
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DYNAMODB_REGION"
+    value     = var.region
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DYNAMODB_TABLE_NAME"
+    value     = "BeanstalkTasks"
+  }
+
   // CloudWatch Logs
   setting {
     namespace = "aws:elasticbeanstalk:cloudwatch:logs"
