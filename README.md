@@ -12,6 +12,10 @@ touch .env
 ```
 
 ```sh
+export queue="https://sqs.<region>.amazonaws.com/<account>/<name>"
+```
+
+```sh
 aws sqs send-message \
   --queue-url $queue \
   --message-body "Hello"
