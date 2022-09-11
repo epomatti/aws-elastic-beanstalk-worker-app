@@ -129,13 +129,16 @@ terraform destroy
 
 ## References
 
-https://jun711.github.io/aws/aws-elastic-beanstalk-worker-auto-scaling-by-queue-size/
-https://github.com/aws/aws-elastic-beanstalk-cli-setup
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-general.html
-https://docs.amazonaws.cn/en_us/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_nodejs.container.html
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-configuration-procfile.html
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html
-https://docs.amazonaws.cn/en_us/elasticbeanstalk/latest/dg/nodejs-platform-shrinkwrap.html
-https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html
-https://stackoverflow.com/a/49759065/3231778
+[Blog: AWS Elastic Beanstalk Worker Auto Scaling By Queue Size](https://jun711.github.io/aws/aws-elastic-beanstalk-worker-auto-scaling-by-queue-size/)
+
+[AWS: General options for all Beanstalk environments](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-general.html)
+
+[AWS: Deploying an Express application to Elastic Beanstalk](https://docs.amazonaws.cn/en_us/elasticbeanstalk/latest/dg/create_deploy_nodejs_express.html)
+
+[AWS: Using the Elastic Beanstalk Node.js platform](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_nodejs.container.html)
+
+[AWS: Configuring the application process with a Procfile](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-configuration-procfile.html)
+
+[AWS: Extending Elastic Beanstalk Linux platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html)
+
+[SO: nginx timeout](https://stackoverflow.com/a/49759065/3231778)
