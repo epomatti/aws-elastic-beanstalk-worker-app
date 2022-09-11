@@ -115,13 +115,7 @@ npm i
 npm run dev
 ```
 
-Send a batch of messages:
-
-```sh
-aws sqs send-message-batch \
-  --queue-url $queue \
-  --entries file://test/send-message-batch-10.json
-```
+Send POST requests to localhost:8080
 
 ---
 
