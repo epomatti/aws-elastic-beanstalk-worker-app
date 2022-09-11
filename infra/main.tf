@@ -247,14 +247,8 @@ resource "aws_elastic_beanstalk_environment" "main" {
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "ServiceRole"
-    // TODO: Create role
+    // TODO: Create dedicated role?
     value = "aws-elasticbeanstalk-service-role"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:environment"
-    name      = "LoadBalancerType"
-    value     = "application"
   }
 
   // Auto Scaling
