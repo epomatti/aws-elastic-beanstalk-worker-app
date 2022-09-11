@@ -83,3 +83,4 @@ https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-configuration-proc
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html
 https://docs.amazonaws.cn/en_us/elasticbeanstalk/latest/dg/nodejs-platform-shrinkwrap.html
 https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html
+https://stackoverflow.com/a/49759065/3231778
