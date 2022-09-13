@@ -56,6 +56,10 @@ resource "aws_subnet" "a" {
   cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = true
   availability_zone       = var.availability_zone_a
+
+  tags = {
+    "Name" = "beanstalk-subnet-a"
+  }
 }
 
 resource "aws_subnet" "b" {
@@ -63,6 +67,10 @@ resource "aws_subnet" "b" {
   cidr_block              = "10.0.10.0/24"
   map_public_ip_on_launch = true
   availability_zone       = var.availability_zone_b
+
+  tags = {
+    "Name" = "beanstalk-subnet-b"
+  }
 }
 
 resource "aws_subnet" "c" {
@@ -70,6 +78,10 @@ resource "aws_subnet" "c" {
   cidr_block              = "10.0.20.0/24"
   map_public_ip_on_launch = true
   availability_zone       = var.availability_zone_c
+
+  tags = {
+    "Name" = "beanstalk-subnet-c"
+  }
 }
 
 ### DynamoDB ###
